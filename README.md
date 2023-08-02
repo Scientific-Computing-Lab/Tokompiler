@@ -59,7 +59,9 @@ Lexicalized Tokens:
 The Tokenizer class defines an interface that Tokompiler implements. It includes the following functions:
 
 tokenize: Converts code into a list of tokens.
+
 encode: Given code, returns a list of IDs representing each token.
+
 decode: Given a list of token IDs, returns the original code.
 
 
