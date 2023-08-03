@@ -1,4 +1,4 @@
-# Tokompiler: Code-Oriented Tokenizer
+# Tokompiler: Code-Oriented Tokenizer for HPC Tasks
 Tokompiler is a specialized tokenizer designed for code preprocessing and tokenization. It provides a pipeline for converting source code into a format that enhances code representation and understanding. Its primary purpose is to support the pretraining of language models for high-performance computing.
 
 ## Getting Started
