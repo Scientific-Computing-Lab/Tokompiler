@@ -17,19 +17,20 @@ from typing import List
 
 
 #WARNING inhertance made so many magic black box bugs I am just removing it dont add it without testing
-class TokompilerHF():
+class TokompilerHF(PreTrainedTokenizer):
     '''
         Hugging Face compatible version of Tokompiler
     '''
     def __init__(self, vocab_file, **kwargs):
         super().__init__(**kwargs)
         self.tokompiler = Tokompiler(vocab_file)
-        self.pad_token_id=self.tokompiler.encode('[PAD]')[0]
+        self.pad_token_id=self.tokompiler.encode('[PAD]') #DONT DARE CHANGE THIS!!!
         #self.pad_token_id=self.tokompiler.encoder['[PAD]']
         self.pad_token='[PAD]'
+
         #black magic for some reason removing the print changes
         #print(type(pad_token_id))
-        #print(pad_token_id)
+        #print(self.pad_token_id)
         #self.pad_token_id=None
         #self.pad_token_id=pad_token_id
         #print(self.pad_token_id) 
@@ -40,7 +41,7 @@ class TokompilerHF():
     def __call__(self,batch,**kwargs):
         seq=[self.tokompiler.encode(t) for t in batch]
         maxln=max(len(x) for x in seq)
-        ans=[x+(maxln-len(x))*[self.pad_token_id] for x in seq]
+        ans=[x+(maxln-len(x))*[self.pad_token_id[0]] for x in seq]
         mask=[len(x)*[1]+(maxln-len(x))*[0] for x in seq]
         #print(ans)
         return {'input_ids':torch.LongTensor(ans),'mask':torch.BoolTensor(mask)}        
