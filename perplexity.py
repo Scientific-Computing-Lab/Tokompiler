@@ -17,7 +17,7 @@ from typing import List
 
 
 #WARNING inhertance made so many magic black box bugs I am just removing it dont add it without testing
-class TokompilerHF(PreTrainedTokenizer):
+class TokompilerHF():#PreTrainedTokenizer
     '''
         Hugging Face compatible version of Tokompiler
     '''
