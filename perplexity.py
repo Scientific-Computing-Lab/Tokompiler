@@ -143,3 +143,9 @@ if __name__=='__main__':
     #print(decoder_only_perplexity(texts,'gpt2',count))
     #print(encoder_decoder_perplexity(texts,'google/flan-t5-small',count))
 
+    config = DummyConfig(vocab_size=50000)
+    model=DummySeq2SeqModel(config)
+    #model=AutoModelForCausalLM.from_pretrained('gpt2')
+    tokenizer=TokompilerHF('tokenizer_vocab/vocab.txt')
+    print(scorer.get_perplexity(['' for _ in texts],texts,count))
+
