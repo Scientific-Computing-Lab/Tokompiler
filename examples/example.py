@@ -1,6 +1,7 @@
-import convert_representation as cr
-from lexicalization import lexicalize
-from tokenizer import Tokompiler
+
+from tokompiler import convert_representation as cr
+from tokompiler import lexicalize
+from tokompiler import Tokompiler
 
 
 lang = 'fortran' 
@@ -21,7 +22,8 @@ splitted_tokens = lexicalize(replaced_code, lang)
 print(splitted_tokens)
 
 ############ Tokenization ############
-tokenizer = Tokompiler('/home/1010/talkad/Tokompiler/tokenizer_vocab/vocab.txt')
+# Path to vocab
+tokenizer = Tokompiler('path_to_vocab.txt')
 encoded_seq = tokenizer.encode(splitted_tokens)
 print(encoded_seq)
 

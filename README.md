@@ -13,8 +13,14 @@ pip install tree-sitter
 Build the Tree-sitter parser by executing the following commands from the root directory:
 
 ```bash
-cd parsers
+cd src/tokompiler/parsers
 python build_ts.py
+cd -
+```
+
+Finally, run setup.py to build pip package as:
+```bash
+python setup.py bdist_wheel && python -m pip install dist/tokompiler-0.1-py3-none-any.whl
 ```
 
 ## Pipeline Overview
