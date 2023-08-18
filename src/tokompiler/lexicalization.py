@@ -1,5 +1,5 @@
-from parse_tools import parse
-from convert_representation import replaced_prefixes
+from .parse_tools import parse
+from .convert_representation import replaced_prefixes
 
 def iterate_tree(node):
     

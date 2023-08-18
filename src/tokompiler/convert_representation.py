@@ -1,6 +1,6 @@
 import re
 import random
-from parse_tools import parse
+from .parse_tools import parse
 
 
 RE_NUMBERS = re.compile(r"(?<![_a-zA-Z])\b[0-9]+(?:\.[0-9]+)?(?:f)?\b(?![0-9.-])")

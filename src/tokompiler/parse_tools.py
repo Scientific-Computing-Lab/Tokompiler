@@ -1,12 +1,12 @@
 from tree_sitter import Language, Parser
-
+import os
 
 
 def get_parser(lang):
-    LANGUAGE = Language('/home/1010/talkad/OMPify/HPCorpus/my-languages.so', lang.lower())
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    LANGUAGE = Language(dir_path + '/parsers/tokompiler-languages.so', lang.lower())
     parser = Parser()
     parser.set_language(LANGUAGE)
-
     return parser
 
 
