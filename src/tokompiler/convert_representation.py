@@ -108,7 +108,7 @@ def get_identifiers(node, kind=''):
     for child in node.children:
         arg, va, ar, fu, fi, ty, nu, ch, st = get_identifiers(child, kind=('arr' if child.type == 'array_declarator' else
                                                   'args' if child.type in ['parameters', 'parameter_list', 'parameter_declaration'] else
-                                                  'func' if child.type in ['call_expression', 'function_declarator', 'subroutine_statement'] else
+                                                  'func' if child.type in ['call_expression', 'function_declarator', 'function_statement', 'subroutine_statement'] else
                                                   '' if child.type in ['argument_list', 'field_expression', 'compound_statement'] else
                                                   'field' if child.type == 'field_identifier' else
                                                    kind if len(kind)>0 else  ''))
@@ -185,21 +185,21 @@ def update_var_names(ast, num_generator):
     
     updated_code, updated_mappings = replace_vars(ast.text.decode(), var_mapping)
 
-    return updated_code
+    return updated_code, updated_mappings
 
 
-def generate_replaced(code, lang, num_generator=generate_random_numbers):
+def generate_replaced(tree, num_generator=generate_random_numbers):
     '''
         Main funtion to create the replaced represrntation
     '''
     updated_code = ''
-    ast = parse(code, lang)
+    mappings = []
 
     try:
-        updated_code = update_var_names(ast.root_node, num_generator)
+        updated_code, mappings = update_var_names(tree.root_node, num_generator)
     except ValueError as e: # N cannot be larger than 1000.
         print(e)
     except RecursionError as e:
         print(e)
 
-    return updated_code
+    return updated_code, {v:k for (k,v,_,_) in mappings}
