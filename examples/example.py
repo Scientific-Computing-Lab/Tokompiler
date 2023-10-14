@@ -1,31 +1,34 @@
-
+import os
 from tokompiler import convert_representation as cr
-from tokompiler import lexicalize
-from tokompiler import Tokompiler
+from tokompiler import lexicalize, parse_tools, Tokompiler
 
 
 lang = 'fortran' 
-code = """SUBROUTINE MySubroutine(a, b, c)
+code = str("""SUBROUTINE MySubroutine(a, b, c)
     REAL, INTENT(IN) :: a, b
     REAL, INTENT(OUT) :: c
 
     c = a + b
 END SUBROUTINE
-"""
+""".lower())
 
-############ Replaced ############ 
-replaced_code = cr.generate_replaced(code, lang)
-print(replaced_code)
+print("Input code:", code)
+############ Replaced ############
+ast = parse_tools.parse(code, lang=lang)
+replaced_code, _ = cr.generate_replaced(ast)
+print('Replaced code:', replaced_code)
 
 ############ Semantical Split ############ 
-splitted_tokens = lexicalize(replaced_code, lang)
-print(splitted_tokens)
+splitted_tokens = lexicalize(replaced_code, lang=lang, replaced=True)
+print('Splitted tokens:', splitted_tokens)
 
 ############ Tokenization ############
 # Path to vocab
-tokenizer = Tokompiler('path_to_vocab.txt')
-encoded_seq = tokenizer.encode(splitted_tokens)
-print(encoded_seq)
+script_dir = os.path.dirname(os.path.realpath(__file__))
+tokenizer = Tokompiler(os.path.join(script_dir, "../tokenizer_vocab/vocab.txt"))
+ids, attention_mask = tokenizer.encode(splitted_tokens)
+print('IDs:', ids)
+print('Attention mask:', attention_mask)
 
-decoded_seq = tokenizer.decode(encoded_seq)
-print(decoded_seq)
+decoded_seq = tokenizer.decode(ids)
+print('Decoded seq:', decoded_seq)

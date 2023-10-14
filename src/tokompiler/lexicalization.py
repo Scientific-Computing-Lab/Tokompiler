@@ -21,7 +21,11 @@ def flatten_list(nested_list):
     return flattened_list
 
 
-def lexicalize(code, lang):
+def lexicalize(code, lang='c', replaced=False, partial=False):
+
+    if lang == 'fortran' and partial:
+        code = f'subroutine example() \n {code}\n end subroutine example'
+
     tree = parse(code, lang=lang)
 
     try:
@@ -29,13 +33,16 @@ def lexicalize(code, lang):
     except RecursionError:
         return ''
 
-    updated_code = []
-    for token in code:
-        if any([token.startswith(prefix) for prefix in replaced_prefixes.values()]):
-            updated_code += token.split('_')
-        else:
-            updated_code.append(token)
+    if replaced:
+        updated_code = []
+        for token in code:
+            if any([token.startswith(prefix) for prefix in replaced_prefixes.values()]):
+                updated_code += token.split('_')
+            else:
+                updated_code.append(token)
 
-    updated_code = [token for token in updated_code]
-    return ' '.join(updated_code)
-    
+        # updated_code = [f'##{token}##' for token in updated_code]
+        # updated_code = [token for token in updated_code]
+        return ' '.join(updated_code)
+        
+    return ' '.join(code)
